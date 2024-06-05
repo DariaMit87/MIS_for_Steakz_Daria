@@ -1,0 +1,12 @@
+div.navbar 
+    h2 Steakz restaurant
+    ul.links
+       li: a(href='/') Home
+       if user
+         li: a(href='/user/profile') Profile
+         if user.role === 'ADMIN'
+           li: a(href='/admin/users') Manage Users
+         li: a(href='/auth/logout') Logout
+       else
+         li: a(href='/auth/register') Register
+         li: a(href='/auth/login') Login

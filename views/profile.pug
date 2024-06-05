@@ -1,0 +1,27 @@
+include ./layouts/header
+
+h1
+  span.goback(onclick="window.history.back()") ←
+  | Profile
+
+if person
+  .profile
+    div
+      p.title ID
+      p.subtitle #{person.id}
+    div
+      p.title Email/username
+      p.subtitle #{person.email}
+    div
+      p.title Role
+      p.subtitle #{person.role}
+    div
+      p.title Branch
+      p.subtitle #{person.Branch}
+else
+  .profile
+    div
+      p.title Error
+      p.subtitle User data not available.
+
+include ./layouts/footer
