@@ -17,7 +17,6 @@ router.post(
     '/login',
     connectEnsure.ensureLoggedOut({redirectTo: '/'}), 
     passport.authenticate('local', {
-      // successRedirect: '/',
       successRedirect: '/user/profile',
       failureRedirect: '/auth/login',
       failureFlash: true,
@@ -54,11 +53,14 @@ router.post(
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const branch = await prisma.branch.findUnique({ where: { id: 1 } });
+
     const newUser = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         role: 'WAITER',
+        Branch: { connect: { id: 1 } },
       },
     });
 

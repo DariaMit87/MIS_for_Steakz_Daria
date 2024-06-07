@@ -1,0 +1,14 @@
+include ./layouts/header
+
+block content
+  h1 Create Order
+
+  form(action="/waiter/create-order", method="post")
+    label(for="menuItemId") Select Menu Item:
+    select(name="menuItemId", id="menuItemId")
+      each item in menuItems
+        option(value=item.id)= `${item.item} - $${item.price.toFixed(2)}`
+
+    button(type="submit") Add Order
+
+include ./layouts/footer

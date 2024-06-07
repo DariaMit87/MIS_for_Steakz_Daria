@@ -10,6 +10,7 @@ const connectFlash = require('connect-flash')
 const passport = require('passport')
 const { ensureLoggedIn } = require('connect-ensure-login');
 const { roles } = require('./utils/constants');
+const ensureAdmin = require('./middleware/authMiddleware')
 
 // Initialization
 const app = express();
@@ -62,6 +63,12 @@ app.use(
   ensureLoggedIn({ redirectTo: '/auth/login' }),
   ensureAdmin,
   require('./routes/admin.route'))
+app.use('/manager',
+  ensureLoggedIn({ redirectTo: '/auth/login' }),
+  require('./routes/manager.route'));
+app.use('/waiter', 
+  ensureLoggedIn({ redirectTo: '/auth/login' }),
+  require('./routes/waiter.route'));
 
 // 404 Handler
 app.use((req, res, next) => {
@@ -82,13 +89,5 @@ app.listen(PORT, () => {
   });
 
 
-// middleware
-function ensureAdmin(req, res, next) {
-    if (req.user.role === roles.admin) {
-      next();
-    } else {
-      req.flash('warning', 'you are not authorized to see this route');
-      res.redirect('/');
-    }
-} 
-//add for each
+
+

@@ -1,12 +1,45 @@
-import { PrismaClient } from '@prisma/client';
+const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
+
+
+async function create() {
+  // Create branches
+  await prisma.Branch.createMany({
+        data: [
+            { name: 'Branch1' },
+            { name: 'Branch2' },
+            { name: 'Branch3' },
+        ],
+    });
+
+    // Create menu items
+    await prisma.Menu.createMany({
+      data: [
+        { item: 'CHICKEN_STEAK', price: 10.99 },
+        { item: 'FISH_STEAK', price: 12.99 },
+        { item: 'BEEF_STEAK', price: 14.99 }, 
+        { item: 'LAMB_STEAK', price: 16.99 },
+    ],
+    });
+}
+
+create()
+  .catch(e => {
+      console.error(e);
+      process.exit(1);
+  })
+  .finally(async () => {
+      await prisma.$disconnect();
+});
+
 
 async function main() {
   const email = 'admin@gmail.com';
   const rawPassword = 'admin';
   const role = 'ADMIN';
+  const branchName = 'Branch1';
 
   const password = await bcrypt.hash(rawPassword, 10);
 
@@ -15,11 +48,21 @@ async function main() {
   });
 
   if (!existingUser) {
+    const branch = await prisma.branch.findFirst({
+      where: { name: branchName },
+    });
+
+    if (!branch) {
+      console.error(`Branch with name ${branchName} does not exist.`);
+      return;
+    }
+
     const user = await prisma.user.create({
       data: {
         email,
         password,
         role,
+        Branch: { connect: { id: branch.id } }
       },
     });
 
@@ -30,10 +73,11 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+.catch((e) => {
+  console.error(e);
+  process.exit(1);
+})
+.finally(async () => {
+  await prisma.$disconnect();
+});
+

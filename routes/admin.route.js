@@ -2,17 +2,22 @@ const router = require('express').Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { roles } = require('../utils/constants');
-const { branch } = require('../utils/constants');
+const ensureRole = require('../middleware/authMiddleware');
 
 
-router.get('/users', async (req, res, next) => {
-    try {
+
+router.get('/users', ensureRole('ADMIN'), async (req, res, next) => {
+  try {
+      console.log("Middleware passed, fetching users...");
       const users = await prisma.user.findMany();
+      console.log("Users fetched:", users);
       res.render('manage-users', { users });
-    } catch (error) {
+  } catch (error) {
+      console.error("Error fetching users:", error);
       next(error);
-    }
-  });
+  }
+});
+
 
 
 router.post('/update-role', async (req, res, next) => {
@@ -80,10 +85,10 @@ router.post('/update-branch', async (req, res, next) => {
       // Update the user's branch
       const user = await prisma.user.update({
         where: { id: parseInt(id) },
-        data: { Branch: parseInt(branch) }, 
+        data: { branchId: parseInt(branch) },
       });
   
-      req.flash('info', `Updated branch for ${user.email} to ${user.Branch}`);
+      req.flash('info', `Updated branch for ${user.email} to branch ${branch}`);
       res.redirect('back');
     } catch (error) {
       next(error);
