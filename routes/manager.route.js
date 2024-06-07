@@ -25,6 +25,4 @@ router.get('/hqm-report', ensureRole('HQM'), async (req, res, next) => {
 
 
 
-
-
 module.exports = router;

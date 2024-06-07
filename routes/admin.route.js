@@ -6,8 +6,6 @@ const ensureRole = require('../middleware/authMiddleware');
 
 
 
-
-
 router.get('/users', ensureRole('ADMIN'), async (req, res, next) => {
   try {
       const users = await prisma.user.findMany();
@@ -37,7 +35,7 @@ router.post('/update-role', async (req, res, next) => {
           return res.redirect('back');
         }
     
-        // Admin cannot remove himself/herself as an admin
+        // Admin cannot remove himself as an admin
         if (req.user.id === parseInt(id)) {
           req.flash(
             'error',
@@ -67,13 +65,11 @@ router.post('/update-branch', async (req, res, next) => {
     try {
       const { id, branch } = req.body;
   
-      // Checking for id and branch in req.body
       if (!id || !branch) {
         req.flash('error', 'Invalid request');
         return res.redirect('back');
       }
   
-      // Admin cannot change his/her branch
       if (req.user.id === parseInt(id)) {
         req.flash(
           'error',
@@ -82,7 +78,6 @@ router.post('/update-branch', async (req, res, next) => {
         return res.redirect('back');
       }
   
-      // Update the user's branch
       const user = await prisma.user.update({
         where: { id: parseInt(id) },
         data: { branchId: parseInt(branch) },

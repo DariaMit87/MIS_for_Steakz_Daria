@@ -1,16 +1,11 @@
 const express = require('express')
 const createHttpError = require('http-errors')
 const morgan = require('morgan')
-const bodyParser = require('body-parser');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 require('dotenv').config();
 const session = require('express-session')
 const connectFlash = require('connect-flash')
 const passport = require('passport')
 const { ensureLoggedIn } = require('connect-ensure-login');
-const { roles } = require('./utils/constants');
-const ensureAdmin = require('./middleware/authMiddleware')
 
 // Initialization
 const app = express();
@@ -28,7 +23,6 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      // secure: true,
       httpOnly: true,
     },
   })
@@ -38,13 +32,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 require('./utils/passport.auth');
-
 app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
 
-
+//Flash messages
 app.use(connectFlash())
 app.use((req, res, next) => {
   res.locals.messages = req.flash();

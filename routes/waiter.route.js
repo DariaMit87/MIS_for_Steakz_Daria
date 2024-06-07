@@ -3,21 +3,22 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const ensureRole = require('../middleware/authMiddleware')
 
+
 router.get('/order', ensureRole('WAITER'), async (req, res, next) => {
     try {
-        const menuItems = await prisma.menu.findMany(); // Get all menu items
+        const menuItems = await prisma.menu.findMany(); 
         res.render('create-order', { menuItems });
     } catch (error) {
-        next(error); // Pass error to next middleware (error handler)
+        next(error); 
     }
 });
 
-// POST request handler
+
 router.post('/create-order', ensureRole('WAITER'), async (req, res, next) => {
     try {
         const { menuItemId } = req.body;
 
-        // Fetch the selected menu item
+        // Show the selected menu item
         const menuItem = await prisma.menu.findUnique({
             where: {
                 id: parseInt(menuItemId),
@@ -34,15 +35,15 @@ router.post('/create-order', ensureRole('WAITER'), async (req, res, next) => {
             data: {
                 orderDate: new Date(),
                 menuItemId: parseInt(menuItemId),
-                userId: req.user.id, // Ensure req.user is defined
-                branchId: req.user.branchId, // Ensure req.user is defined
+                userId: req.user.id, 
+                branchId: req.user.branchId, 
             },
         });
 
         req.flash('info', `Order added for user ID ${req.user.id} in branch ${req.user.branchId}`);
         res.redirect('/waiter/order');
     } catch (error) {
-        next(error); // Pass error to next middleware (error handler)
+        next(error); 
     }
 });
 
