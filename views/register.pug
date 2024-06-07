@@ -1,9 +1,9 @@
 include ./layouts/header
 
-h1 Register
+h1.register Register
 if error
   p.error= error
-form.lg-form(action="/auth/register", method="post")
+form.reg-form(action="/auth/register", method="post")
   div
     label(for="email") Email/Username
     input(type="text", name="email", id="email", value=locals.email ? locals.email : '')
@@ -15,7 +15,7 @@ form.lg-form(action="/auth/register", method="post")
     input(type="password", name="password2", id="password2")
   div
     input(type="submit", value="Register")
-div
+div.alacc
   p
     | Already have an account? 
     span

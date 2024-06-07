@@ -1,7 +1,7 @@
 include ./layouts/header
 
-h1 Login
-form.lg-form(action="/auth/login", method="post")
+h1.register Login
+form.reg-form(action="/auth/login", method="post")
   div
     label(for="email") Email/Username
     input(type="email", name="email", id="email")
@@ -11,7 +11,7 @@ form.lg-form(action="/auth/login", method="post")
   div
     input(type="submit", value="Login")
 
-div
+div.alacc
   p
     | Don't have an account? 
     span

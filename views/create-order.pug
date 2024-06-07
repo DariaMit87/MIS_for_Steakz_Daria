@@ -1,14 +1,17 @@
 include ./layouts/header
 
 block content
-  h1 Create Order
+  h1.register Create Order
 
-  form(action="/waiter/create-order", method="post")
-    label(for="menuItemId") Select Menu Item:
-    select(name="menuItemId", id="menuItemId")
-      each item in menuItems
-        option(value=item.id)= `${item.item} - $${item.price.toFixed(2)}`
-
-    button(type="submit") Add Order
+  .form-container
+    form(action="/waiter/create-order", method="post")
+      .form-group
+        label(for="menuItemId") Select Menu Item:
+        select(name="menuItemId", id="menuItemId")
+          each item in menuItems
+            option(value=item.id)= `${item.item} - $${item.price.toFixed(2)}`
+      
+      .form-group2
+        button(type="submit") Add Order
 
 include ./layouts/footer
