@@ -9,9 +9,9 @@ div.navbar
             if user.role === 'WAITER'
                 li: a(href='/waiter/order') Order 
             if user.role === 'BRANCH_MANAGER'
-                li: a(href='/user/manager') See branch report
+                li: a(href='/manager/dashboard') See branch report
             if user.role === 'HQM'
-                li: a(href='/user/hqm') See restaurant report
+                li: a(href='/manager/hqm-report') See restaurant report
             li: a(href='/auth/logout') Logout
         else
             li: a(href='/auth/register') Register

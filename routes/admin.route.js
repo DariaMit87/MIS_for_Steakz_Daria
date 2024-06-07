@@ -6,11 +6,11 @@ const ensureRole = require('../middleware/authMiddleware');
 
 
 
+
+
 router.get('/users', ensureRole('ADMIN'), async (req, res, next) => {
   try {
-      console.log("Middleware passed, fetching users...");
       const users = await prisma.user.findMany();
-      console.log("Users fetched:", users);
       res.render('manage-users', { users });
   } catch (error) {
       console.error("Error fetching users:", error);

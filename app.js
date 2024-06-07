@@ -61,7 +61,6 @@ app.use(
 app.use(
   '/admin', 
   ensureLoggedIn({ redirectTo: '/auth/login' }),
-  ensureAdmin,
   require('./routes/admin.route'))
 app.use('/manager',
   ensureLoggedIn({ redirectTo: '/auth/login' }),

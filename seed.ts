@@ -4,35 +4,35 @@ const bcrypt = require('bcrypt');
 const prisma = new PrismaClient();
 
 
-async function create() {
-  // Create branches
-  await prisma.Branch.createMany({
-        data: [
-            { name: 'Branch1' },
-            { name: 'Branch2' },
-            { name: 'Branch3' },
-        ],
-    });
+// async function create() {
+//   // Create branches
+//   await prisma.Branch.createMany({
+//         data: [
+//             { name: 'Branch1' },
+//             { name: 'Branch2' },
+//             { name: 'Branch3' },
+//         ],
+//     });
 
-    // Create menu items
-    await prisma.Menu.createMany({
-      data: [
-        { item: 'CHICKEN_STEAK', price: 10.99 },
-        { item: 'FISH_STEAK', price: 12.99 },
-        { item: 'BEEF_STEAK', price: 14.99 }, 
-        { item: 'LAMB_STEAK', price: 16.99 },
-    ],
-    });
-}
+//     // Create menu items
+//     await prisma.Menu.createMany({
+//       data: [
+//         { item: 'CHICKEN_STEAK', price: 10.99 },
+//         { item: 'FISH_STEAK', price: 12.99 },
+//         { item: 'BEEF_STEAK', price: 14.99 }, 
+//         { item: 'LAMB_STEAK', price: 16.99 },
+//     ],
+//     });
+// }
 
-create()
-  .catch(e => {
-      console.error(e);
-      process.exit(1);
-  })
-  .finally(async () => {
-      await prisma.$disconnect();
-});
+// create()
+//   .catch(e => {
+//       console.error(e);
+//       process.exit(1);
+//   })
+//   .finally(async () => {
+//       await prisma.$disconnect();
+// });
 
 
 async function main() {
