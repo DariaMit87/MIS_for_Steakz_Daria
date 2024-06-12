@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "seed": "ts-node seed.ts"
+    "seed": "ts-node seed.ts",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
