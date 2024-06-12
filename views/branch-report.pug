@@ -3,6 +3,16 @@ include ./layouts/header
 block content
   h1.register Branch Manager Report
 
+  form.filter-form(method="get" action="/manager/dashboard")
+    div.form-group
+      label(for="from") From:
+      input.form-control(type="date" name="from" required)
+    div.form-group
+      label(for="to") To:
+      input.form-control(type="date" name="to" required)
+    div.form-group
+      button.btn(type="submit") Filter
+
   table.tablereport
     thead
       tr
